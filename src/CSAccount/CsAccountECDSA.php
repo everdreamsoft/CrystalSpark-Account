@@ -43,7 +43,7 @@ class CsAccountECDSA
         $compressed = ($nv & 4) != 0;
 
         $msglen = strlen($message);
-        $hash = hash('sha256', hash('sha256', "\x18Bitcoin Signed Messag:\n" . chr($msglen) . $message, true));
+        $hash = hash('sha256', hash('sha256', "\x18Bitcoin Signed Message:\n" . chr($msglen) . $message, true));
 
         $ec = new EC('secp256k1');
         $pub = $ec->recoverPubKey($hash, $signarr, $recid);
