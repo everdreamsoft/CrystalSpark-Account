@@ -2,7 +2,7 @@
     "name": "everdreamsoft/cs-account",
     "description": "Account manager for blockchain wallet key sign in",
     "type": "library",
-    "license": "GPL-V3",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "shaban shaame",
