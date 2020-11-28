@@ -19,6 +19,12 @@ class CSAccountManager
     private $serverKey;
     private $messageDataSeparator = "==CSAccount Server Validation==";
     private $cookieName = "CSAccount_jwt";
+    private $useCookies = false ;
+    /**
+     * @var UserManager
+     */
+    public UserManager $userManager;
+
 
     /**
      * @return string
@@ -40,8 +46,22 @@ class CSAccountManager
     {
 
         $this->serverKey = $serverKey ;
+        $this->userManager = new UserManager();
+
+        if(isset($_GET['requestServerChallenge'])){
+            header('Content-Type: application/json');
+            echo json_encode($this->requestServerChallenge($_GET['requestServerChallenge']));
+            die();
+
+        }
 
 
+    }
+
+    public function withCookies(){
+
+        $this->useCookies = true ;
+        return $this;
 
     }
 
@@ -54,11 +74,11 @@ class CSAccountManager
 
     }
 
-    public function requestServerChallenge($forAddress)
+    public function requestServerChallenge($forAddress,$debug=false)
     {
 
         $jwtService = new JwtService($this);
-        $jwt = $jwtService->requestServerChallenge($forAddress);
+        $jwt = !$debug ? $jwtService->requestServerChallengeForDebug($forAddress) : $jwtService->requestServerChallengeForDebug($forAddress);
         $response['jwt'] = $jwt;
         $response['message'] = $this->getSignMessage($jwt);
 
@@ -73,7 +93,7 @@ class CSAccountManager
         return $this->serverKey ;
     }
 
-    public function getSignMessage($jwt){
+    private function getSignMessage($jwt){
 
         return "you have to sign this jwt 
         
@@ -81,28 +101,48 @@ class CSAccountManager
         $this->messageDataSeparator$jwt";
     }
 
-    public function authenticate($address, $message)
+    public function authenticate($signature, $message)
     {
+        //$chain = BlockchainRouting::blockchainFromAddress($address);
 
-        $chain = BlockchainRouting::blockchainFromAddress($address);
-        $validSignature = false ;
+        try {
+            $signer = EthSigRecover::personalEcRecover($message, $signature);
 
-        if ($chain instanceof EthereumBlockchain)
-           // $validSignature = EthSigRecover::personalEcRecover($message,$address);
+        }catch (\Exception $e){
+
+            return "KO ".$e->getMessage();
+        }
 
         //extract JWT from message
-        $jwt = explode($this->messageDataSeparator,$message);
+        $messageFull = explode($this->messageDataSeparator,$message);
+        $jwt = $messageFull[1];
         $jwtService = new JwtService($this);
 
-        if (!$jwtService->isValidJwt($jwt[1])){
-            return $jwtService->isValidJwt($jwt[1]) ;
+        try {
+            $jwtService->jwtAddressMatch($jwt,$signer);
 
+        }catch (\Exception $e){
+
+            return "KO ".$e->getMessage();
         }
-        setcookie($this->cookieName, $jwt[1], time() + (86400 * 30), "/"); // 86400 = 1 day
+
+
+
+
+
+        if ($this->useCookies) {  $this->setCookie($jwt,time() + (86400 * 30)); }// 86400 = 1 day
 
         return "OK";
+    }
+
+    public function setCookie($jwt,$expirationTimestamp)
+    {
+
+        setcookie($this->cookieName, $jwt, $expirationTimestamp, "/"); // 86400 = 1 day
 
     }
+
+
 
     public function isAuthorized($requiredAuth,$jwt=null)
     {
@@ -111,10 +151,52 @@ class CSAccountManager
 
     }
 
-    public function isLoggedOrRedirect($jwt=null)
+    public function isLogged($jwt=null)
     {
 
+        if (isset($_COOKIE[$this->getCookieName()])){
 
+            try {
+                $jwtService = new JwtService($this);
+                $jwtService->isValidJwt($_COOKIE[$this->getCookieName()]);
+                return true ;
+
+            }catch (\Exception $e){
+
+            }
+
+
+
+        }
+
+        return false ;
+
+
+
+    }
+
+    public function logout(){
+
+        if (isset($_COOKIE[$this->getCookieName()])) {
+            unset($_COOKIE[$this->getCookieName()]);
+            setcookie($this->getCookieName(), null, -1, '/');
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
+
+    public function addUser(CSAccountUser $user){
+
+        $this->userManager->addUser($user);
+
+    }
+
+    public static function initWithDebugServerKey(){
+
+       return new CSAccountManager('ServerKeyXXXXXXXXXXXXXX');
 
 
     }

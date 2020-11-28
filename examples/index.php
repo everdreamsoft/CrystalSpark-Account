@@ -12,27 +12,24 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
 
-$accountManager = new \CsAccount\CSAccountManager('serverKeyXXXXXXXXXXXXXXXXXXXX');
 
-
-if(isset($_GET['requestServerChallenge'])){
-    header('Content-Type: application/json');
-    echo json_encode($accountManager->requestServerChallenge($_GET['requestServerChallenge']));
-
-}
+$accountManager = \CsAccount\CSAccountManager::initWithDebugServerKey()->withCookies();
 
 
 
-else if(isset($_GET['loginBySign'])){
 
 
-     print_r($accountManager->authenticate($_GET['loginBySign'],$_POST['message']));
+
+ if(isset($_GET['loginBySign'])){
+
+
+     print_r($accountManager->authenticate($_POST['signature'],$_POST['message']));
 
 }
 
 else{
 
-    if (isset($_COOKIE[$accountManager->getCookieName()])) die ("we have the coookkkkkiiiee");
+    if (isset($_COOKIE[$accountManager->getCookieName()])) die ("we have the coookkkkkiiiee ".$_COOKIE[$accountManager->getCookieName()]);
 
     $accountManager->renderAuthView();;
 

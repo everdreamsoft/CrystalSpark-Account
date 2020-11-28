@@ -26,7 +26,6 @@ class JwtService
 
     public function requestServerChallenge($address){
 
-
         $key = $this->accountManager->getServerKey() ;
         $payload = array(
             "iss" => $_SERVER['HTTP_HOST'],
@@ -42,6 +41,22 @@ class JwtService
 
         return $jwt ;
 
+    }
+
+    public function requestServerChallengeForDebug($address){
+
+        $key = $this->accountManager->getServerKey() ;
+        $payload = array(
+
+
+
+            "address" => $address
+        );
+
+
+        $jwt = JWT::encode($payload, $key);
+
+        return $jwt ;
 
     }
 
@@ -54,7 +69,20 @@ class JwtService
             return true ;
             }catch (\Exception $e){
 
-            return $e->getMessage() ;
+            return false ;
+        }
+    }
+
+    public function jwtAddressMatch($jwt,$address)
+    {
+        try {
+            $this->isValidJwt($jwt);
+            $jwt = JWT::decode($jwt, $this->accountManager->getServerKey(), array('HS256'));
+            if ($jwt->address != $address) throw new \Exception("signer doens't match challenge");
+            return true ;
+        }catch (\Exception $e){
+            throw new \Exception($e);
+
         }
     }
 

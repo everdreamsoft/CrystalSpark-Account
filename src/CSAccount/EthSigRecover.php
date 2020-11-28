@@ -47,7 +47,7 @@ class EthSigRecover {
 
         $recovery = $v - 27;
         if ($recovery !== 0 && $recovery !== 1) {
-            throw new Exception('Invalid signature v value');
+            throw new \Exception('Invalid signature v value');
         }
 
         $publicKey = Signature::recoverPublicKey($rGmp, $sGmp, $messageGmp, $recovery);
