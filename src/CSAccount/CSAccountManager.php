@@ -144,8 +144,9 @@ class CSAccountManager
     public function getCookie()
     {
 
-        if ($this->useCookies)
+        if ($this->useCookies && isset($_COOKIE[$this->getCookieName()])) {
             return $_COOKIE[$this->getCookieName()];
+        }
 
         return null ;
 
@@ -189,6 +190,7 @@ class CSAccountManager
 
 
         $user = $this->getUser($jwt);
+        if (!$user) return false ;
         if (in_array($role,$user->getRoles())) return true ;
         return false ;
 
