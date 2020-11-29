@@ -12,10 +12,6 @@ use CsAccount\CSAccountManager;
 use CsAccount\CsAccountRole;
 use CsAccount\CSAccountUser;
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 
 
 $adminAddress = '0xB5529f45D86b0B7ce0bd1679a86E3d13f936573C';
