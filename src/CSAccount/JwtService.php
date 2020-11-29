@@ -108,12 +108,16 @@ class JwtService
 
     public function getUserFromSessionJwt($jwt){
 
+        try {
+            $loginJwt = JWT::decode($jwt, $this->accountManager->getServerKey(), array('HS256'));
+            if($loginJwt->verified) {
+                return $this->accountManager->userManager->getUserFromAddress($loginJwt->address);
+            }
+        } catch (\Exception $e){
 
-        $loginJwt = JWT::decode($jwt, $this->accountManager->getServerKey(), array('HS256'));
-        if($loginJwt->verified)
-            return $this->accountManager->userManager->getUserFromAddress($loginJwt->address);
+        }
 
-        else return null ;
+        return null ;
 
     }
 

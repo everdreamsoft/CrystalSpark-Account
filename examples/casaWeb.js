@@ -304,8 +304,6 @@ var CSCasaWeb =  {
 
             return signature ;
 
-
-
         }
 
 
@@ -330,20 +328,10 @@ var CSCasaWeb =  {
                    resolve(signature)
                    }
                )}
-
-
            )
-
-
-
-
-
-
-
         }
 
         if (chain === 'test'){
-
 
             let signature = await this.web3.personal.sign(web3.fromUtf8(message), web3.eth.coinbase,
                 (err, signature) => {
@@ -357,14 +345,7 @@ var CSCasaWeb =  {
 
             return signature ;
 
-
-
         }
-
-
-
-
-
 
        return "no sign" ;
 
