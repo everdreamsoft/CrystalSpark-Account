@@ -14,7 +14,7 @@
         "everdreamsoft/crystal-spark-cannon": "dev-master",
         "simplito/elliptic-php": "dev-master",
         "stephenhill/base58": "~1.0",
-        "kornrunner/keccak": "dev-master",
+        "kornrunner/keccak": "~1.0.3",
       "ext-openssl": "*",
         "ext-gmp": "*",
         "firebase/php-jwt": "dev-master",

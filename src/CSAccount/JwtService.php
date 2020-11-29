@@ -32,7 +32,7 @@ class JwtService
             "aud" => $_SERVER['HTTP_HOST'],
             "iat" => time(),
             "ip" => $_SERVER['REMOTE_ADDR'],
-
+            "verified" => false,
             "address" => $address
         );
 
@@ -47,8 +47,6 @@ class JwtService
 
         $key = $this->accountManager->getServerKey() ;
         $payload = array(
-
-
 
             "address" => $address
         );
@@ -106,8 +104,16 @@ class JwtService
             throw new \Exception('wrong ip');
 
         }
+    }
+
+    public function getUserFromSessionJwt($jwt){
 
 
+        $loginJwt = JWT::decode($jwt, $this->accountManager->getServerKey(), array('HS256'));
+        if($loginJwt->verified)
+            return $this->accountManager->userManager->getUserFromAddress($loginJwt->address);
+
+        else return null ;
 
     }
 
@@ -115,8 +121,22 @@ class JwtService
     {
         try {
 
-            JWT::decode($jwt, $this->accountManager->getServerKey(), array('HS256'));
-            return true ;
+            $loginJwt = JWT::decode($jwt, $this->accountManager->getServerKey(), array('HS256'));
+            $address = $loginJwt->address ;
+            $key = $this->accountManager->getServerKey() ;
+            $payload = array(
+                "iss" => $_SERVER['HTTP_HOST'],
+                "aud" => $_SERVER['HTTP_HOST'],
+                "iat" => time(),
+                "ip" => $_SERVER['REMOTE_ADDR'],
+                "verified" => true,
+                "address" => $address
+            );
+
+
+            $jwt = JWT::encode($payload, $key);
+
+            return $jwt ;
         }catch (\Exception $e){
 
             return false ;

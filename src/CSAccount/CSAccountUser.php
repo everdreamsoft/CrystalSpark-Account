@@ -34,7 +34,8 @@ class CSAccountUser
      */
     public function setAuthEthSignAddresses(array $authAddress)
     {
-        $this->authAddress = $authAddress;
+        foreach ($authAddress as $key => $address) $authAddress[$key] = strtolower($address);
+        $this->authAddress = $authAddress ;
         return $this ;
     }
 

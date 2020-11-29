@@ -78,7 +78,7 @@ class CSAccountManager
     {
 
         $jwtService = new JwtService($this);
-        $jwt = !$debug ? $jwtService->requestServerChallengeForDebug($forAddress) : $jwtService->requestServerChallengeForDebug($forAddress);
+        $jwt = !$debug ? $jwtService->requestServerChallenge($forAddress) : $jwtService->requestServerChallengeForDebug($forAddress);
         $response['jwt'] = $jwt;
         $response['message'] = $this->getSignMessage($jwt);
 
@@ -126,13 +126,12 @@ class CSAccountManager
             return "KO ".$e->getMessage();
         }
 
+        $sessionJwt = $jwtService->issueSessionJWT($jwt);
 
 
+        if ($this->useCookies) {  $this->setCookie($sessionJwt,time() + (86400 * 30)); }// 86400 = 1 day
 
-
-        if ($this->useCookies) {  $this->setCookie($jwt,time() + (86400 * 30)); }// 86400 = 1 day
-
-        return "OK";
+        return "OK".PHP_EOL.$sessionJwt;
     }
 
     public function setCookie($jwt,$expirationTimestamp)
@@ -142,6 +141,15 @@ class CSAccountManager
 
     }
 
+    public function getCookie()
+    {
+
+        if ($this->useCookies)
+            return $_COOKIE[$this->getCookieName()];
+
+        return null ;
+
+    }
 
 
     public function isAuthorized($requiredAuth,$jwt=null)
@@ -150,6 +158,43 @@ class CSAccountManager
 
 
     }
+
+    public function isRegisteredUser($jwt=null)
+    {
+        $user =  $this->getUser($jwt);
+
+        if ($user) return true ;
+
+        return false ;
+
+    }
+
+    public function getUser($jwt=null)
+    {
+        if (!$jwt && $this->getCookie()){
+
+            $jwt = $this->getCookie();
+        }
+
+        $jwtService = new JwtService($this);
+
+
+        return $jwtService->getUserFromSessionJwt($jwt);
+
+    }
+
+    public function hasRole(CsAccountRole $role,$jwt=null)
+    {
+        
+
+
+        $user = $this->getUser($jwt);
+        if (in_array($role,$user->getRoles())) return true ;
+        return false ;
+
+
+    }
+
 
     public function isLogged($jwt=null)
     {
@@ -170,8 +215,6 @@ class CSAccountManager
         }
 
         return false ;
-
-
 
     }
 

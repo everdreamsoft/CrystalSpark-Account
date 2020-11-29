@@ -45,4 +45,15 @@ class UserManager
 
     }
 
+    public function getUserFromAddress($address):? CSAccountUser{
+
+        if (isset($this->getAddressMap()[$address]))
+        {
+            return $this->getAddressMap()[$address] ;
+        }
+
+        return null ;
+
+    }
+
 }
