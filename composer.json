@@ -12,7 +12,7 @@
     "minimum-stability": "dev",
     "require": {
         "everdreamsoft/crystal-spark-cannon": "dev-master",
-        "simplito/elliptic-php": "dev-master",
+        "simplito/elliptic-php": "~1.0.6",
         "stephenhill/base58": "~1.0",
         "kornrunner/keccak": "~1.0.3",
       "ext-openssl": "*",
