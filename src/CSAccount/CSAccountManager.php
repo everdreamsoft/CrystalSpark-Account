@@ -23,8 +23,7 @@ class CsAccountManager
     /**
      * @var UserManager
      */
-    public UserManager $userManager;
-
+    public  $userManager;
 
     /**
      * @return string
@@ -241,7 +240,7 @@ class CsAccountManager
 
     public static function initWithDebugServerKey(){
 
-       return new CsAccountManager('ServerKeyXXXXXXXXXXXXXX');
+       return new CsAccountManager('ServerKeyXXXXXXXXXXXXXXXXXXXXXX');
 
 
     }
