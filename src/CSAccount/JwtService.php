@@ -14,11 +14,11 @@ use Firebase\JWT\JWT;
 class JwtService
 {
     /**
-     * @var CSAccountManager
+     * @var CsAccountManager
      */
     private  $accountManager;
 
-    public function __construct(CSAccountManager $accountManager)
+    public function __construct(CsAccountManager $accountManager)
     {
         $this->accountManager = $accountManager ;
 

@@ -9,7 +9,7 @@
 namespace CsAccount;
 
 
-class CSAccountUser
+class CsAccountUser
 {
 
     private $name = null ;
@@ -30,7 +30,7 @@ class CSAccountUser
 
     /**
      * @param array $authAddress
-     * @return CSAccountUser
+     * @return CsAccountUser
      */
     public function setAuthEthSignAddresses(array $authAddress)
     {
@@ -74,7 +74,7 @@ class CSAccountUser
     /**
      *
      * @param CsAccountRole[] $roles
-     * @return CSAccountUser
+     * @return CsAccountUser
      */
     public function setRoles(array $roles){
 
@@ -83,7 +83,7 @@ class CSAccountUser
 
     }
 
-    public function addToManager(CSAccountManager $manager){
+    public function addToManager(CsAccountManager $manager){
 
         $manager->addUser($this);
         return $this ;
@@ -93,7 +93,7 @@ class CSAccountUser
 
     public static function initWithName(string $name):self{
 
-        $user = new CSAccountUser();
+        $user = new CsAccountUser();
         $user->setName($name);
         return $user ;
 

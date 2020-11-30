@@ -20,6 +20,8 @@ $accountManager = \CsAccount\CsAccountManager::initWithDebugServerKey()->withCoo
 
 
 
+
+
  if(isset($_GET['loginBySign'])){
 
 

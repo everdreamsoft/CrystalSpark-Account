@@ -28,6 +28,9 @@
     "autoload": {
         "psr-0": {
             "CsAccount": "src/"
-        }
+        },
+        "classmap": [
+            "src/"
+        ]
     }
 }
