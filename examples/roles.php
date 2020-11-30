@@ -8,7 +8,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
 
-use CsAccount\CSAccountManager;
+use CsAccount\CsAccountManager;
 use CsAccount\CsAccountRole;
 use CsAccount\CSAccountUser;
 
@@ -21,7 +21,7 @@ $anAdmin = new CsAccountRole('admin');
 $aUser = new CsAccountRole('user');
 $aGuest = new CsAccountRole('guest');
 
-$csAccountManager = CSAccountManager::initWithDebugServerKey()->withCookies();
+$csAccountManager = CsAccountManager::initWithDebugServerKey()->withCookies();
 CSAccountUser::initWithName("belovedAdmin")
     ->setRoles([$anAdmin])
     ->setAuthEthSignAddresses([$adminAddress])

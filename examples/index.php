@@ -13,7 +13,7 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
 
 
-$accountManager = \CsAccount\CSAccountManager::initWithDebugServerKey()->withCookies();
+$accountManager = \CsAccount\CsAccountManager::initWithDebugServerKey()->withCookies();
 
 
 

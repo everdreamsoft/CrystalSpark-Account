@@ -8,7 +8,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
 
-$accountManager = new \CsAccount\CSAccountManager('serverKeyXXXXXXXXXXXXXXXXXXXX');
+$accountManager = new \CsAccount\CsAccountManager('serverKeyXXXXXXXXXXXXXXXXXXXX');
 
 $accountManager->logout();
 
