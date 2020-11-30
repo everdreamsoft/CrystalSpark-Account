@@ -13,7 +13,7 @@ use CsCannon\BlockchainRouting;
 use CsCannon\Blockchains\Ethereum\EthereumBlockchain;
 use Firebase\JWT\JWT;
 
-class CSAccountManager
+class CsAccountManager
 {
 
     private $serverKey;
@@ -241,7 +241,7 @@ class CSAccountManager
 
     public static function initWithDebugServerKey(){
 
-       return new CSAccountManager('ServerKeyXXXXXXXXXXXXXX');
+       return new CsAccountManager('ServerKeyXXXXXXXXXXXXXX');
 
 
     }
