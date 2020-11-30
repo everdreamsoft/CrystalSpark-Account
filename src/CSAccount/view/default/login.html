@@ -132,15 +132,34 @@
                     </div>
                 </form>
             </div>
-            <div id="debugDiv"></div>
+
 
 
         </div>
     </div>
+    <div id="debugDiv"></div>
 </div>
 
 
 <script>
+
+    //showing console element in dom
+
+    var log = document.querySelector('#debugDiv');
+
+    ['log','warn','error'].forEach(function (verb) {
+        console[verb] = (function (method, verb, log) {
+            return function (text) {
+                method(text);
+                // handle distinguishing between methods any way you'd like
+                var msg = document.createElement('code');
+                msg.classList.add(verb);
+                msg.textContent = verb + ': ' + text;
+                log.appendChild(msg);
+            };
+        })(console[verb].bind(console), verb, log);
+    });
+
 
     $( document ).ready(function() {
         console.log("🦄 init casaweb")
@@ -204,22 +223,6 @@
     }
 
 
-    //showing console element in dom
-
-    var log = document.querySelector('#debugDiv');
-
-    ['log','warn','error'].forEach(function (verb) {
-        console[verb] = (function (method, verb, log) {
-            return function (text) {
-                method(text);
-                // handle distinguishing between methods any way you'd like
-                var msg = document.createElement('code');
-                msg.classList.add(verb);
-                msg.textContent = verb + ': ' + text;
-                log.appendChild(msg);
-            };
-        })(console[verb].bind(console), verb, log);
-    });
 
 
 
