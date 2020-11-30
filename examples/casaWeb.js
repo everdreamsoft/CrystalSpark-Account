@@ -76,7 +76,7 @@ var CSCasaWeb =  {
     log:function (log) {
 
         this.logText += log+" \n <br>";
-       // showLog();
+       console.log(log);
         this.notify();
 
     },
