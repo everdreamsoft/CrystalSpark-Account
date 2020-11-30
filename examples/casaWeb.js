@@ -127,7 +127,7 @@ var CSCasaWeb =  {
 
 
 
-
+            //metamask only ?
             if (typeof ethereum !== 'undefined') {
                 this.log("ethereum javascript object found");
 

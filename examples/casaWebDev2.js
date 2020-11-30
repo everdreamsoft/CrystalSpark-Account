@@ -154,7 +154,7 @@ var CSCasaWeb =  {
             try {
                 this.log("Entering try to get account");
                 //document.getElementById("account").innerHTML = "please wait...";
-                this.log(web3.eth.getAccounts);
+               
                  const res = await web3.eth.getAccounts((err, acc) => {
 
                     CSCasaWeb.log("Eth callback callded");
