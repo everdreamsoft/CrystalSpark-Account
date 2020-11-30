@@ -12,7 +12,7 @@ namespace CsAccount;
 class UserManager
 {
 
-    private array $user = array();
+    private  $user = array();
     private $addressMap;
 
     public function addUser(CSAccountUser $user){
