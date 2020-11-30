@@ -59,7 +59,7 @@ class CsAccountUser
     /**
      * @var CsAccountRole[]
      */
-    private array $roles;
+    private  $roles;
 
     /**
      *
