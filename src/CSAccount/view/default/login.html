@@ -10,7 +10,7 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/gh/everdreamsoft/CrystalSpark-Account/examples/casaWebDev.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/everdreamsoft/CrystalSpark-Account/examples/casaWebDev2.js"></script>
 <!--<script src="casaWeb.js"></script>-->
 
 
@@ -137,6 +137,7 @@
 
         </div>
     </div>
+
     <div id="debugDiv"></div>
 </div>
 
@@ -154,7 +155,7 @@
                 // handle distinguishing between methods any way you'd like
                 var msg = document.createElement('code');
                 msg.classList.add(verb);
-                msg.textContent = verb + ': ' + text;
+                msg.textContent = verb + ': ' + text+'<br>';
                 log.appendChild(msg);
             };
         })(console[verb].bind(console), verb, log);
@@ -162,6 +163,8 @@
 
 
     $( document ).ready(function() {
+        console.log("🍪 cookies")
+        console.log(document.cookie);
         console.log("🦄 init casaweb")
         CSCasaWeb.init();
         CSCasaWeb.blockchainProvider.ethereum.unlockWallet();
