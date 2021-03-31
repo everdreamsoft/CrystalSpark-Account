@@ -1,0 +1,7 @@
+{
+  "name": "CrystalSpark-Account",
+  "version": "1.0.0",
+  "devDependencies": {
+    "web3": "^1.3.4"
+  }
+}

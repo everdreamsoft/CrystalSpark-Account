@@ -103,15 +103,15 @@ var CSCasaWeb =  {
     init: async function(){
 
 
-        this.log("CasaWeb init v08");
-        this.log(navigator.userAgent);
-
+        this.log("CasaWeb init v091");
 
 
        // showLog();
        // if (this.inited) return this.inited ;
 
-
+       // const Web3 = require('web3');
+        // web3 lib instance
+        //const web3 = new Web3(window.ethereum);
 
         if (typeof web3 !== 'undefined') {
 

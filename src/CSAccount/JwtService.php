@@ -74,8 +74,11 @@ class JwtService
     public function jwtAddressMatch($jwt,$address)
     {
         try {
+
             $this->isValidJwt($jwt);
+
             $jwt = JWT::decode($jwt, $this->accountManager->getServerKey(), array('HS256'));
+            echo $jwt->address . " $address"  ;
             if ($jwt->address != $address) throw new \Exception("signer doens't match challenge");
             return true ;
         }catch (\Exception $e){

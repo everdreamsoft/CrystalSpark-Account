@@ -103,7 +103,7 @@ var CSCasaWeb =  {
     init: async function(){
 
 
-        this.log("CasaWeb init v08");
+        this.log("CasaWeb init v09");
         this.log(navigator.userAgent);
 
 
