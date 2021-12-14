@@ -17,7 +17,7 @@
         "kornrunner/keccak": "~1.0.3",
       "ext-openssl": "*",
         "ext-gmp": "*",
-        "firebase/php-jwt": "dev-master",
+        "firebase/php-jwt": "dev-main",
       "ext-json": "*"
     },
 
