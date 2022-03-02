@@ -10,6 +10,7 @@ namespace CsAccount;
 
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class JwtService
 {
@@ -37,7 +38,7 @@ class JwtService
         );
 
 
-        $jwt = JWT::encode($payload, $key);
+        $jwt = JWT::encode($payload, $key,'HS256');
 
         return $jwt ;
 
@@ -52,7 +53,10 @@ class JwtService
         );
 
 
-        $jwt = JWT::encode($payload, $key);
+
+
+
+        $jwt = JWT::encode($payload, $key,'HS256');
 
         return $jwt ;
 
@@ -62,7 +66,12 @@ class JwtService
     {
         try {
 
-            $jwt = JWT::decode($jwt, $this->accountManager->getServerKey(), array('HS256'));
+            $keyArray = new Key($this->accountManager->getServerKey(), 'HS256');
+
+
+                $jwt = JWT::decode($jwt, $keyArray );
+
+
             $this->verifyAdditionalConstraints($jwt);
             return true ;
             }catch (\Exception $e){
@@ -77,7 +86,9 @@ class JwtService
 
             $this->isValidJwt($jwt);
 
-            $jwt = JWT::decode($jwt, $this->accountManager->getServerKey(), array('HS256'));
+            $keyArray = new Key($this->accountManager->getServerKey(), 'HS256');
+
+            $jwt = JWT::decode($jwt, $keyArray);
             echo $jwt->address . " $address"  ;
             if ($jwt->address != $address) throw new \Exception("signer doens't match challenge");
             return true ;
@@ -112,7 +123,8 @@ class JwtService
     public function getUserFromSessionJwt($jwt){
 
         try {
-            $loginJwt = JWT::decode($jwt, $this->accountManager->getServerKey(), array('HS256'));
+            $keyArray = new Key($this->accountManager->getServerKey(), 'HS256');
+            $loginJwt = JWT::decode($jwt, $keyArray);
             if($loginJwt->verified) {
                 return $this->accountManager->userManager->getUserFromAddress($loginJwt->address);
             }
@@ -127,8 +139,8 @@ class JwtService
     public function issueSessionJWT($jwt)
     {
         try {
-
-            $loginJwt = JWT::decode($jwt, $this->accountManager->getServerKey(), array('HS256'));
+            $keyArray = new Key($this->accountManager->getServerKey(), 'HS256');
+            $loginJwt = JWT::decode($jwt, $keyArray);
             $address = $loginJwt->address ;
             $key = $this->accountManager->getServerKey() ;
             $payload = array(
@@ -141,7 +153,7 @@ class JwtService
             );
 
 
-            $jwt = JWT::encode($payload, $key);
+            $jwt = JWT::encode($payload, $key,'HS256');
 
             return $jwt ;
         }catch (\Exception $e){
